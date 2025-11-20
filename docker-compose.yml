@@ -1,0 +1,39 @@
+services:
+  webapp:
+    image: flyingflip/osticket
+    container_name: osticket 
+    ports:
+      - "8098:80"
+    volumes:
+      - ./config/osticket:/var/www/config
+    environment:
+      PHP_MAX_EXECUTION_TIME: 300
+      PHP_MAX_INPUT_TIME: 300
+    depends_on:
+      - datastore
+    networks:
+      - osticket
+    restart: unless-stopped
+
+  datastore:
+    image: mariadb:11.4
+    container_name: db
+    command: --max_allowed_packet=2048M
+    environment:
+      MYSQL_USER: 'user'
+      MYSQL_DATABASE: 'osticket'
+      MYSQL_PASSWORD: 'osticket'
+      MYSQL_ROOT_PASSWORD: 'osticket'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
+    expose:
+      - "3306"
+    volumes:
+      - ./config/mariadb:/var/lib/mysql
+    networks:
+      osticket:
+        aliases:
+          - db
+    restart: unless-stopped
+
+networks:
+  osticket: null
