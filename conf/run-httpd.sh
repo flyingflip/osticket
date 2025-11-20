@@ -75,6 +75,12 @@ mv -f /etc/php/8.2/cli/php2.ini /etc/php/8.2/cli/php.ini
 
 ln -s /etc/apache2/sites-available/00x-default.conf /etc/apache2/sites-enabled/000-default.conf
 
+if [ ! -f "/var/www/config/include/ost-config.php" ]; then
+  cp /var/www/upload/include/ost-sampleconfig.php /var/www/config/ost-config.php && \
+  chmod 0666 /var/www/config/ost-config.php
+  ln -s /var/www/config/ost-config.php /var/www/upload/include/ost-config.php
+fi
+
 service apache2 start
 service cron start
 

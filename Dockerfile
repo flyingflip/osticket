@@ -47,6 +47,9 @@ RUN apt-get update && apt-get install -y gpg && echo -n 'deb http://ppa.launchpa
   apt-get update -y && \
   apt-get upgrade -y
 
+# RUN wget https://launchpad.net/ubuntu/+source/icu/70.1-2/+build/23145450/+files/libicu70_70.1-2_amd64.deb && \
+#   dpkg -i libicu70_70.1-2_amd64.deb
+
 RUN wget https://launchpad.net/ubuntu/+source/icu/70.1-2ubuntu1/+build/23839596/+files/libicu70_70.1-2ubuntu1_arm64.deb && \
   dpkg -i libicu70_70.1-2ubuntu1_arm64.deb
 
@@ -88,8 +91,6 @@ COPY etc/php/8.2/apache2/php.ini /etc/php/8.2/apache2/php.ini
 
 COPY /osticket/osticket.zip /var/www/osticket.zip
 RUN unzip /var/www/osticket.zip -d /var/www
-RUN cp /var/www/upload/include/ost-sampleconfig.php /var/www/upload/include/ost-config.php && \
-  chmod 0666 /var/www/upload/include/ost-config.php
 
 # Add our localhost certificate
 ADD etc/ssl/localhost.crt /etc/ssl/certs/localhost.crt
